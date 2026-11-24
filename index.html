@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Choice of Anesthetic Technique Simulator | Dr. Hussam Kareem</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Cairo & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        arabic: ['Cairo', 'sans-serif'],
+                        english: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Cairo', 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        .en-text {
+            font-family: 'Inter', sans-serif;
+            direction: ltr;
+            unicode-bidi: isolate;
+        }
+        .en-block {
+            font-family: 'Inter', sans-serif;
+            direction: ltr;
+            text-align: left;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 9999px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #475569;
+        }
+        .tab-content {
+            animation: fadeIn 0.25s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-200 min-h-screen flex flex-col">
+
+    <!-- Top Navigation Header -->
+    <header class="sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap items-center justify-between py-3 gap-3">
+                <!-- Title & Instructor Info -->
+                <div class="flex items-center gap-3">
+                    <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-blue-600 to-emerald-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20 shrink-0">
+                        <i data-lucide="git-branch" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <h1 class="text-base sm:text-xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                                <span class="en-text">The Choice of Anesthetic Technique</span> <span class="text-blue-600 dark:text-blue-400">Simulator</span>
+                            </h1>
+                            <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300">
+                                تفاعلي + توليد لحظي ∞
+                            </span>
+                        </div>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">
+                            محاضرة: <span class="font-bold text-slate-700 dark:text-slate-300 en-text">Dr. Hussam Kareem</span> (Anesthesiologist)
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Action Buttons: Bilingual Toggle & Dark Mode -->
+                <div class="flex items-center gap-2 sm:gap-3">
+                    <button onclick="toggleArabicMode()" class="flex items-center gap-2 px-3 py-2 rounded-xl text-xs sm:text-sm font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800 transition-all shadow-sm">
+                        <i data-lucide="languages" class="w-4 h-4"></i>
+                        <span id="arabicBtnLabel">إخفاء الشرح العربي</span>
+                    </button>
+
+                    <button onclick="toggleDarkMode()" aria-label="Toggle Theme" class="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition-all">
+                        <i id="themeIcon" data-lucide="moon" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 4 Navigation Tabs -->
+            <nav class="flex space-x-1 space-x-reverse overflow-x-auto pb-2 pt-1 no-scrollbar" aria-label="Tabs">
+                <button onclick="switchTab('foundations')" id="tab-foundations" class="nav-tab flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all bg-blue-600 text-white shadow-sm">
+                    <i data-lucide="compass" class="w-4 h-4"></i>
+                    <span>1. الأساسيات والعوامل الـ 8</span>
+                </button>
+                <button onclick="switchTab('techniques')" id="tab-techniques" class="nav-tab flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800">
+                    <i data-lucide="layers" class="w-4 h-4"></i>
+                    <span>2. مصفوفة التقنيات الأربعة</span>
+                </button>
+                <button onclick="switchTab('simulator')" id="tab-simulator" class="nav-tab flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800">
+                    <i data-lucide="stethoscope" class="w-4 h-4"></i>
+                    <span>3. محاكي القرار السريري</span>
+                </button>
+                <button onclick="switchTab('quiz')" id="tab-quiz" class="nav-tab flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800">
+                    <i data-lucide="sparkles" class="w-4 h-4"></i>
+                    <span>4. بنك الأسئلة اللحظي</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+        <!-- ========================================================= -->
+        <!-- TAB 1: FOUNDATIONS, 6 GOALS, 8 FACTORS & SURGICAL URGENCY -->
+        <!-- ========================================================= -->
+        <section id="view-foundations" class="tab-content space-y-6">
+            
+            <!-- Definition & Core Principle -->
+            <div class="bg-gradient-to-l from-blue-50 to-emerald-50 dark:from-blue-950/40 dark:to-slate-900 border border-blue-200 dark:border-blue-800/60 rounded-2xl p-5 sm:p-6 shadow-sm space-y-3">
+                <div class="flex items-start gap-4">
+                    <div class="p-3 rounded-2xl bg-blue-600/15 text-blue-600 dark:text-blue-400 shrink-0 mt-1">
+                        <i data-lucide="shield-check" class="w-7 h-7"></i>
+                    </div>
+                    <div class="space-y-2 flex-1">
+                        <div class="flex items-center justify-between flex-wrap gap-2">
+                            <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-white">
+                                مفهوم اختيار تقنية التخدير <span class="en-text text-blue-700 dark:text-blue-400 text-sm">(Anesthetic Choice)</span>
+                            </h2>
+                            <span class="text-xs font-bold px-3 py-1 rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900/60 dark:text-blue-200">
+                                المسؤولية الأولى: طبيب التخدير
+                            </span>
+                        </div>
+                        <div class="en-block text-sm sm:text-base text-slate-800 dark:text-slate-200 bg-white/80 dark:bg-slate-950/60 p-4 rounded-xl border border-blue-200/50 dark:border-slate-800 leading-relaxed">
+                            <strong>Anesthetic choice</strong> is the process of selecting the <strong>best type of anesthesia for a particular patient and surgical procedure</strong>. There is no single ideal anesthetic technique for all patients; rather, <strong>anesthesia must be individualized</strong>. This decision is made by the <strong>anesthesiologist</strong> in consultation with the <strong>patient</strong> and the <strong>surgeon</strong>.
+                        </div>
+                        <p class="ar-explain text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                            <strong>الشرح:</strong> اختيار تقنية التخدير هو عملية انتقاء أفضل نوع تخدير يناسب <strong>مريضاً محدداً وعملية جراحية محددة</strong> (لا يوجد نوع واحد مثالي للجميع، بل يجب تفصيل التخدير لكل حالة). تقع المسؤولية الأساسية لهذا القرار على <strong>طبيب التخدير (<span class="en-text font-semibold">Anesthesiologist</span>)</strong> بالتشاور مع المريض والجراح.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6 Goals of Choosing an Anesthetic Technique -->
+            <div class="space-y-3">
+                <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+                    <span class="w-8 h-8 rounded-xl bg-emerald-100 dark:bg-emerald-900/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                        <i data-lucide="target" class="w-5 h-5"></i>
+                    </span>
+                    الأهداف الستة لاختيار تقنية التخدير <span class="en-text text-emerald-600 dark:text-emerald-400 text-sm">(6 Goals of Choosing an Anesthetic Technique)</span>
+                </h2>
+                <div id="goalsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+            </div>
+
+            <!-- 8 Factors to Consider -->
+            <div class="space-y-3">
+                <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+                    <span class="w-8 h-8 rounded-xl bg-blue-100 dark:bg-blue-900/60 text-blue-600 dark:text-blue-400 flex items-center justify-center">
+                        <i data-lucide="list-checks" class="w-5 h-5"></i>
+                    </span>
+                    العوامل الثمانية المؤثرة في الاختيار <span class="en-text text-blue-600 dark:text-blue-400 text-sm">(8 Factors to Consider)</span>
+                </h2>
+                <div id="factorsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"></div>
+            </div>
+
+            <!-- Surgical Urgency & Specific Surgery Reference -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Surgical Urgency -->
+                <div class="lg:col-span-5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm space-y-4">
+                    <h3 class="text-lg font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+                        <i data-lucide="clock" class="w-5 h-5 text-rose-600"></i>
+                        <span>تصنيف الجراحة حسب الاستعجالية <span class="en-text text-xs text-slate-500">(Urgency)</span></span>
+                    </h3>
+                    <div id="urgencyList" class="space-y-3"></div>
+                </div>
+
+                <!-- Specific Surgical Procedures Guide -->
+                <div class="lg:col-span-7 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm space-y-4">
+                    <h3 class="text-lg font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+                        <i data-lucide="scissors" class="w-5 h-5 text-blue-600"></i>
+                        <span>الاختيار حسب نوع العملية الجراحية <span class="en-text text-xs text-slate-500">(Specific Surgeries)</span></span>
+                    </h3>
+                    <div id="surgeryTypesGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- TAB 2: 4 TECHNIQUES COMPARISON MATRIX                     -->
+        <!-- ========================================================= -->
+        <section id="view-techniques" class="tab-content hidden space-y-6">
+            <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 sm:p-5 shadow-sm flex flex-wrap items-center justify-between gap-3">
+                <div>
+                    <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-white">
+                        مقارنة تقنيات التخدير الأربعة <span class="en-text text-blue-600 dark:text-blue-400 text-sm">(4 Anesthetic Techniques Matrix)</span>
+                    </h2>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                        مرتبة من الأعمق (<span class="en-text font-semibold">General Anesthesia</span>) إلى الأقل توغلاً (<span class="en-text font-semibold">Local Anesthesia</span>).
+                    </p>
+                </div>
+
+                <!-- Filter Pills -->
+                <div class="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+                    <button onclick="filterTechnique('ALL')" data-tech="ALL" class="tech-pill px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-900 text-white dark:bg-blue-600 whitespace-nowrap transition-all">
+                        الكل (4)
+                    </button>
+                    <button onclick="filterTechnique('GA')" data-tech="GA" class="tech-pill px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 whitespace-nowrap transition-all">
+                        General (العام)
+                    </button>
+                    <button onclick="filterTechnique('REG')" data-tech="REG" class="tech-pill px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 whitespace-nowrap transition-all">
+                        Regional / Neuraxial
+                    </button>
+                    <button onclick="filterTechnique('SED')" data-tech="SED" class="tech-pill px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 whitespace-nowrap transition-all">
+                        Sedation (التركين)
+                    </button>
+                    <button onclick="filterTechnique('LOC')" data-tech="LOC" class="tech-pill px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 whitespace-nowrap transition-all">
+                        Local (الموضعي)
+                    </button>
+                </div>
+            </div>
+
+            <div id="techniquesContainer" class="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- TAB 3: INTERACTIVE CASE DECISION SIMULATOR                -->
+        <!-- ========================================================= -->
+        <section id="view-simulator" class="tab-content hidden space-y-6">
+            <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 sm:p-5 shadow-sm flex flex-wrap items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+                        <i data-lucide="stethoscope" class="w-6 h-6 text-blue-600"></i>
+                        <span>محاكي اتخاذ القرار التخديري (Case Decision Simulator)</span>
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
+                        يُولّد سيناريو جراحياً جديداً في كل ضغطة زر لتحديد <strong>تقنية التخدير الأنسب</strong> و<strong>درجة الاستعجالية</strong>.
+                    </p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800 px-3.5 py-2 rounded-xl text-center">
+                        <span class="text-[10px] text-slate-500 dark:text-slate-400 block font-bold">الحالات المحلولة</span>
+                        <span id="simSolvedBadge" class="text-sm font-extrabold text-emerald-600 dark:text-emerald-400 en-text">0</span>
+                    </div>
+                    <button onclick="generateClinicalCase()" class="px-4 py-2.5 rounded-xl bg-gradient-to-l from-blue-600 to-emerald-600 hover:from-blue-500 hover:to-emerald-500 text-white text-xs sm:text-sm font-extrabold shadow-md shadow-blue-500/20 flex items-center gap-2 transition-all active:scale-95">
+                        <i data-lucide="shuffle" class="w-4 h-4"></i>
+                        <span>توليد حالة جراحية جديدة</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Patient & Surgery Card -->
+                <div class="lg:col-span-5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-11 h-11 rounded-2xl bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 flex items-center justify-center font-extrabold">
+                                <i data-lucide="clipboard-list" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <span id="caseIdBadge" class="text-[11px] font-extrabold px-2 py-0.5 rounded bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 en-text">CASE #101</span>
+                                <h3 id="caseTitle" class="text-base font-extrabold text-slate-900 dark:text-white mt-0.5">--</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2.5 text-center">
+                        <div class="bg-slate-50 dark:bg-slate-800/70 p-2.5 rounded-xl">
+                            <span class="text-[11px] text-slate-500 block">نوع العملية <span class="en-text">(Surgery)</span></span>
+                            <span id="caseSpecialty" class="text-xs sm:text-sm font-extrabold text-blue-600 dark:text-blue-400 en-text">--</span>
+                        </div>
+                        <div class="bg-slate-50 dark:bg-slate-800/70 p-2.5 rounded-xl">
+                            <span class="text-[11px] text-slate-500 block">التوقيت المطلوب <span class="en-text">(Timing)</span></span>
+                            <span id="caseTimingHint" class="text-xs sm:text-sm font-extrabold text-amber-600 dark:text-amber-400">--</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <div class="text-xs font-bold text-slate-500 dark:text-slate-400">تفاصيل الحالة السريرية <span class="en-text">(Clinical Profile)</span>:</div>
+                        <div id="caseDescEn" class="en-block text-sm text-slate-800 dark:text-slate-200 bg-slate-50 dark:bg-slate-950/60 p-3.5 rounded-xl border border-slate-200/70 dark:border-slate-800 leading-relaxed"></div>
+                        <div id="caseDescAr" class="ar-explain text-sm text-slate-700 dark:text-slate-300 bg-blue-50/50 dark:bg-blue-950/20 p-3 rounded-xl border border-blue-100 dark:border-blue-900/40 leading-relaxed"></div>
+                    </div>
+                </div>
+
+                <!-- Interactive Decision Form -->
+                <div class="lg:col-span-7 space-y-5">
+                    <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 sm:p-6 shadow-sm space-y-5">
+                        <!-- Step 1: Technique -->
+                        <div class="space-y-2.5">
+                            <label class="text-sm font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+                                <span class="w-6 h-6 rounded-full bg-blue-600 text-white text-xs flex items-center justify-center en-text">1</span>
+                                <span>اختر تقنية التخدير الأنسب <span class="en-text text-blue-600 dark:text-blue-400 text-xs">(Anesthetic Technique)</span>:</span>
+                            </label>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5" id="simTechButtons">
+                                <button type="button" onclick="selectSimTech('General Anesthesia')" data-val="General Anesthesia" class="sim-tech-btn p-3 rounded-xl border border-slate-200 dark:border-slate-700 text-right hover:border-blue-500 transition-all">
+                                    <div class="en-block text-sm font-extrabold">General Anesthesia</div>
+                                    <div class="text-xs text-slate-500">التخدير العام (فقدان وعي كامل وتحكم بمجرى الهواء)</div>
+                                </button>
+                                <button type="button" onclick="selectSimTech('Regional / Neuraxial Anesthesia')" data-val="Regional / Neuraxial Anesthesia" class="sim-tech-btn p-3 rounded-xl border border-slate-200 dark:border-slate-700 text-right hover:border-blue-500 transition-all">
+                                    <div class="en-block text-sm font-extrabold">Regional / Neuraxial Anesthesia</div>
+                                    <div class="text-xs text-slate-500">التخدير المناطقي / المحوري (تسكين ممتاز ونهوض مبكر)</div>
+                                </button>
+                                <button type="button" onclick="selectSimTech('Sedation')" data-val="Sedation" class="sim-tech-btn p-3 rounded-xl border border-slate-200 dark:border-slate-700 text-right hover:border-blue-500 transition-all">
+                                    <div class="en-block text-sm font-extrabold">Sedation</div>
+                                    <div class="text-xs text-slate-500">التركين (المريض واعٍ ومسترخٍ ونعسان)</div>
+                                </button>
+                                <button type="button" onclick="selectSimTech('Local Anesthesia')" data-val="Local Anesthesia" class="sim-tech-btn p-3 rounded-xl border border-slate-200 dark:border-slate-700 text-right hover:border-blue-500 transition-all">
+                                    <div class="en-block text-sm font-extrabold">Local Anesthesia</div>
+                                    <div class="text-xs text-slate-500">التخدير الموضعي (منطقة صغيرة جداً، الأقل توغلاً)</div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Urgency -->
+                        <div class="space-y-2.5">
+                            <label class="text-sm font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+                                <span class="w-6 h-6 rounded-full bg-emerald-600 text-white text-xs flex items-center justify-center en-text">2</span>
+                                <span>حدد تصنيف الاستعجالية الجراحية <span class="en-text text-emerald-600 dark:text-emerald-400 text-xs">(Surgical Urgency)</span>:</span>
+                            </label>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5" id="simUrgButtons">
+                                <button type="button" onclick="selectSimUrg('Emergency')" data-val="Emergency" class="sim-urg-btn p-3 rounded-xl border border-slate-200 dark:border-slate-700 text-center hover:border-rose-500 transition-all">
+                                    <div class="en-text text-sm font-extrabold text-rose-600 dark:text-rose-400">Emergency</div>
+                                    <div class="text-[11px] text-slate-500">فورية / مهددة للحياة</div>
+                                </button>
+                                <button type="button" onclick="selectSimUrg('Urgent')" data-val="Urgent" class="sim-urg-btn p-3 rounded-xl border border-slate-200 dark:border-slate-700 text-center hover:border-amber-500 transition-all">
+                                    <div class="en-text text-sm font-extrabold text-amber-600 dark:text-amber-400">Urgent</div>
+                                    <div class="text-[11px] text-slate-500">خلال 24–72 ساعة</div>
+                                </button>
+                                <button type="button" onclick="selectSimUrg('Elective')" data-val="Elective" class="sim-urg-btn p-3 rounded-xl border border-slate-200 dark:border-slate-700 text-center hover:border-emerald-500 transition-all">
+                                    <div class="en-text text-sm font-extrabold text-emerald-600 dark:text-emerald-400">Elective</div>
+                                    <div class="text-[11px] text-slate-500">مجدولة مسبقاً</div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <button onclick="submitClinicalDecision()" class="w-full py-3 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-blue-600 dark:hover:bg-blue-500 text-white font-extrabold text-sm shadow-md transition-all">
+                            تأكيد القرار السريري وعرض التقييم
+                        </button>
+                    </div>
+
+                    <!-- Feedback Box -->
+                    <div id="simResultBox" class="hidden rounded-2xl border p-5 space-y-3 transition-all">
+                        <div class="flex items-center justify-between flex-wrap gap-2">
+                            <h4 id="simResultTitle" class="text-base sm:text-lg font-extrabold">--</h4>
+                            <button onclick="generateClinicalCase()" class="px-3.5 py-1.5 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-xs font-bold">
+                                الحالة التالية ←
+                            </button>
+                        </div>
+                        <div id="simResultEn" class="en-block text-sm p-3.5 rounded-xl bg-white/80 dark:bg-slate-950/60 border border-black/5 dark:border-white/10 leading-relaxed"></div>
+                        <div id="simResultAr" class="ar-explain text-sm leading-relaxed"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- TAB 4: REAL-TIME PROCEDURAL MCQ ENGINE                    -->
+        <!-- ========================================================= -->
+        <section id="view-quiz" class="tab-content hidden space-y-6">
+            <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm space-y-4">
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+                                <i data-lucide="cpu" class="w-6 h-6 text-blue-600"></i>
+                                <span>بنك الأسئلة اللحظي المتجدد (Real-Time Procedural MCQ Engine)</span>
+                            </h2>
+                            <span id="seedBadge" class="text-[11px] font-mono font-bold px-2.5 py-0.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 en-text">
+                                LIVE SEED: #0000
+                            </span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+                            يُولّد أسئلة جديدة بصياغات وخيارات معاد ترتيبها في كل تحديث للصفحة أو عند الضغط على <strong>"توليد اختبار جديد"</strong>.
+                        </p>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <div class="bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 px-4 py-1.5 rounded-xl text-center">
+                            <span class="text-[10px] text-slate-500 dark:text-slate-400 block font-bold">النتيجة</span>
+                            <span id="quizScoreDisplay" class="text-base font-extrabold text-blue-700 dark:text-blue-300 en-text">0 / 15</span>
+                        </div>
+                        <button onclick="generateFreshQuiz()" class="px-4 py-2.5 rounded-xl bg-gradient-to-l from-blue-600 to-emerald-600 hover:from-blue-500 hover:to-emerald-500 text-white text-xs sm:text-sm font-extrabold shadow-md shadow-blue-500/20 flex items-center gap-2 transition-all active:scale-95">
+                            <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                            <span>توليد اختبار جديد</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="quizQuestionsContainer" class="space-y-4"></div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-4 px-4 mt-10">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500 dark:text-slate-400">
+            <div>
+                محاكي محاضرة <span class="en-text font-bold text-slate-700 dark:text-slate-300">The Choice of Anesthetic Technique</span> — د. حسام كريم (<span class="en-text">Dr. Hussam Kareem</span>)
+            </div>
+            <div>
+                مدعوم بمحرك التوليد اللحظي غير المتكرر (<span class="en-text">Real-Time Procedural Engine</span>)
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========================================================= -->
+    <!-- JAVASCRIPT DATA & REAL-TIME PROCEDURAL ENGINE             -->
+    <!-- ========================================================= -->
+    <script>
+        let showArabic = true;
+        let currentTechFilter = 'ALL';
+        let currentSimCase = null;
+        let selectedSimTech = null;
+        let selectedSimUrg = null;
+        let simSolvedCount = 0;
+        let activeQuestions = [];
+        let quizAnswers = {};
+
+        function randInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+        function pickRandom(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+        function shuffleArray(arr) {
+            const copy = [...arr];
+            for (let i = copy.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [copy[i], copy[j]] = [copy[j], copy[i]];
+            }
+            return copy;
+        }
+
+        // =========================================================
+        // 1. TAB 1 DATA: 6 GOALS, 8 FACTORS, URGENCY & SURGERIES
+        // =========================================================
+        const goalsData = [
+            { num: '1', en: 'Provide adequate hypnosis, analgesia, and muscle relaxation', ar: 'توفير التنويم (فقدان الوعي)، وتسكين الألم، والارتخاء العضلي الكافي.' },
+            { num: '2', en: 'Maintain physiological homeostasis', ar: 'الحفاظ على التوازن الفيزيولوجي المستقر لأجهزة الجسم.' },
+            { num: '3', en: 'Ensure patient safety and comfort', ar: 'ضمان سلامة المريض وراحته التامة.' },
+            { num: '4', en: 'Facilitate optimal surgical conditions', ar: 'تهيئة أفضل الظروف الممكنة للجراح لإجراء العملية.' },
+            { num: '5', en: 'Minimize perioperative complications', ar: 'تقليل المضاعفات المحيطة بالجراحة إلى أدنى حد.' },
+            { num: '6', en: 'Enable rapid and smooth recovery', ar: 'تمكين المريض من إفاقة سريعة وسلسة.' }
+        ];
+
+        const factorsData = [
+            { num: '1', titleEn: 'Type of surgery', descEn: 'Determines level of anesthesia: major surgery usually requires GA and/or regional; minor surgery may use regional or local.', descAr: 'يحدد عمق التخدير المطلوب: الجراحات الكبرى تحتاج تخديراً عاماً أو مناطقياً، والصغرى قد تُجرى بالموضعي أو المناطقي.' },
+            { num: '2', titleEn: 'Patient’s medical history', descEn: 'Some anesthetics may be contraindicated (e.g., asthmatic patients may not tolerate certain induction agents).', descAr: 'السوابق المرضية تحدد موانع الاستعمال (مثلاً مرضى الربو قد لا يتحملون بعض أدوية بدء التخدير).' },
+            { num: '3', titleEn: 'Age and weight', descEn: 'Affects metabolism and drug response; older adults and infants may be more sensitive to anesthetics.', descAr: 'يؤثران على الاستقلاب والاستجابة للأدوية؛ كبار السن والرضّع أكثر حساسية لأدوية التخدير.' },
+            { num: '4', titleEn: 'Overall health', descEn: 'Patients with heart disease or lung disease require special anesthetic precautions.', descAr: 'الحالة الصحية العامة: مرضى القلب أو الرئة يحتاجون احتياطات خاصة أثناء التخدير.' },
+            { num: '5', titleEn: 'Individual preferences', descEn: 'Some patients prefer to stay awake during surgery, while others prefer to be entirely unconscious.', descAr: 'رغبة المريض وتفضيله الشخصي بين البقاء مستيقظاً أو النوم الكامل.' },
+            { num: '6', titleEn: 'Anxiety level', descEn: 'Very anxious patients may benefit from a more sedative anesthetic approach.', descAr: 'مستوى القلق: المرضى شديدو القلق يستفيدون من تخدير أكثر تركيناً.' },
+            { num: '7', titleEn: 'Patient’s cooperation', descEn: 'Patients unable to cooperate with the anesthesiologist may require general anesthesia.', descAr: 'مدى تعاون المريض: المرضى غير المتعاونين (مثل الأطفال الصغار) غالباً يحتاجون تخديراً عاماً.' },
+            { num: '8', titleEn: 'Experience of anesthesiologist', descEn: 'Anesthesiologists with more experience may be more comfortable performing specific techniques.', descAr: 'خبرة طبيب التخدير ومهارته في تنفيذ تقنيات تخديرية محددة.' }
+        ];
+
+        const urgencyData = [
+            { level: 'Emergency', color: 'rose', time: 'Immediate (فورية)', en: 'Life-threatening condition; must be done immediately.', ar: 'حالة مهددة للحياة، يجب إجراء العملية فوراً دون تأخير.' },
+            { level: 'Urgent', color: 'amber', time: 'Within 24–72 hours', en: 'Must be performed within 24–72 hours to prevent serious complications.', ar: 'عاجلة: يجب إجراؤها خلال 24 إلى 72 ساعة لمنع حدوث مضاعفات خطيرة.' },
+            { level: 'Elective', color: 'emerald', time: 'Scheduled in advance', en: 'Scheduled in advance; can be delayed without harm.', ar: 'منتخبة: مجدولة مسبقاً ويمكن تأجيلها دون أي ضرر على المريض.' }
+        ];
+
+        const surgeryGuideData = [
+            { name: 'Cardiac Surgery', rec: 'General Anesthesia (Most common)', descAr: 'التخدير العام هو الأكثر شيوعاً للتحكم الكامل بمجرى الهواء والتنفس.' },
+            { name: 'Neurosurgery', rec: 'General Anesthesia (Most common)', descAr: 'التخدير العام للسماح بالجراحة على الدماغ والحبل الشوكي دون ألم أو حركة.' },
+            { name: 'Orthopedic Surgery', rec: 'General or Regional (e.g., Knee replacement)', descAr: 'يُستخدم العام غالباً، أو المناطقي لبعض العمليات مثل تبديل مفصل الركبة.' },
+            { name: 'Abdominal Surgery', rec: 'General or Regional (e.g., Hysterectomy, Urology)', descAr: 'يُستخدم العام عادةً، أو المناطقي لبعض عمليات استئصال الرحم والمسالك البولية.' },
+            { name: 'Thoracic Surgery', rec: 'General or Regional (e.g., Lung biopsy)', descAr: 'يُستخدم العام عادةً، وقد يُستخدم المناطقي لبعض الإجراءات مثل خزعة الرئة.' },
+            { name: 'C-Section (Cesarean)', rec: 'General or Regional Anesthesia', descAr: 'كلاهما ممكن؛ ويعتمد الاختيار على ظروف المريضة الفردية وتفضيلها.' }
+        ];
+
+        // =========================================================
+        // 2. TAB 2 DATA: 4 ANESTHETIC TECHNIQUES MATRIX
+        // =========================================================
+        const techniquesData = [
+            {
+                id: 'GA', color: 'blue',
+                titleEn: '1. General Anesthesia (GA)', titleAr: 'التخدير العام (الأعمق)',
+                defEn: 'The deepest level of anesthesia, in which the patient is completely unconscious and unaware of any pain or discomfort.',
+                defAr: 'أعمق مستوى من التخدير، يكون فيه المريض فاقداً للوعي تماماً ولا يشعر بأي ألم أو انزعاج.',
+                usesEn: 'Major surgery or procedures requiring deep muscle relaxation (e.g., Cardiac, Neurosurgery, major Abdominal/Thoracic).',
+                usesAr: 'الجراحات الكبرى أو العمليات التي تتطلب ارتخاءً عضلياً عميقاً (القلب، الأعصاب، البطن، الصدر).',
+                prosEn: ['Complete unconsciousness', 'Excellent surgical field', 'Full airway control'],
+                prosAr: 'فقدان وعي كامل • مجال جراحي ممتاز • تحكم كامل بمجرى الهواء.',
+                consEn: ['PONV (Postoperative nausea & vomiting)', 'Airway trauma', 'Hemodynamic instability', 'Malignant hyperthermia', 'Allergic reactions'],
+                consAr: 'الغثيان والقيء بعد العملية (PONV) • رضوض مجرى الهواء • عدم استقرار الدورة الدموية • فرط الحرارة الخبيث • تفاعلات تحسسية.'
+            },
+            {
+                id: 'REG', color: 'emerald',
+                titleEn: '2. Regional / Neuraxial Anesthesia', titleAr: 'التخدير المناطقي / المحوري',
+                defEn: 'Blocks pain signals from a specific region/area of the body while the patient can remain awake or lightly sedated.',
+                defAr: 'يحجب إشارات الألم من منطقة محددة من الجسم (مثل الأطراف أو النصف السفلي).',
+                usesEn: 'Surgery on extremities (arms/legs), orthopedic (knee replacement), abdominal (hysterectomy, urological), and C-section.',
+                usesAr: 'جراحات الأطراف، العظام (تبديل الركبة)، البطن (استئصال الرحم والمسالك البولية)، والعمليات القيصرية.',
+                prosEn: ['Superior analgesia', 'Reduced opioid use', 'Early ambulation', 'Earlier discharge from the hospital'],
+                prosAr: 'تسكين فائق للألم • تقليل الحاجة للأفيونات • الحركة والمشي المبكر • خروج أسرع من المستشفى.',
+                consEn: ['Hypotension', 'Bradycardia', 'Post-dural puncture headache (PDPH)', 'Nerve injury', 'Local anesthetic systemic toxicity (LAST)'],
+                consAr: 'هبوط الضغط • بطء القلب • صداع ما بعد البزل الجافوي (PDPH) • أذية الأعصاب • السمية الجهازية للمخدر الموضعي (LAST).'
+            },
+            {
+                id: 'SED', color: 'amber',
+                titleEn: '3. Sedation', titleAr: 'التركين (التخدير الخفيف)',
+                defEn: 'A lighter form of anesthesia where the patient remains conscious, relaxed, and sleepy.',
+                defAr: 'شكل أخف من التخدير يبقى فيه المريض واعياً ومسترخياً ويشعر بالنعاس.',
+                usesEn: 'Minor surgery or diagnostic procedures such as colonoscopy or endoscopy.',
+                usesAr: 'الجراحات البسيطة أو الإجراءات التنظيرية مثل تنظير القولون أو التنظير الهضمي.',
+                prosEn: ['Less invasive than general anesthesia', 'Quicker recovery', 'Less nausea and vomiting'],
+                prosAr: 'أقل توغلاً من التخدير العام • تعافٍ أسرع • غثيان وتقيؤ أقل.',
+                consEn: ['Drowsiness', 'Dizziness', 'Difficulty breathing', 'Allergic reactions'],
+                consAr: 'النعاس • الدوار (الدوخة) • صعوبة التنفس • تفاعلات تحسسية.'
+            },
+            {
+                id: 'LOC', color: 'teal',
+                titleEn: '4. Local Anesthesia', titleAr: 'التخدير الموضعي',
+                defEn: 'Blocks pain signals from a very small, localized area of the body.',
+                defAr: 'يوقف إشارات الألم في منطقة صغيرة ومحدودة جداً من الجسم.',
+                usesEn: 'Minor superficial procedures such as stitches (suturing) or dental work.',
+                usesAr: 'الإجراءات البسيطة جداً مثل خياطة الجروح (الغرز) أو علاج الأسنان.',
+                prosEn: ['Least invasive type of anesthesia', 'Quick recovery', 'No need for intubation'],
+                prosAr: 'أقل أنواع التخدير توغلاً • تعافٍ فوري وسريع • لا حاجة للتنبيب الرغامي.',
+                consEn: ['Pain (at injection site)', 'Swelling', 'Redness', 'Allergic reactions'],
+                consAr: 'ألم موضعي • تورم • احمرار • تفاعلات تحسسية.'
+            }
+        ];
+
+        // =========================================================
+        // 3. TAB 3: PROCEDURAL CLINICAL CASE GENERATOR
+        // =========================================================
+        function generateClinicalCase() {
+            const casesPool = [
+                {
+                    title: 'Emergency Cardiac Valve / Trauma Repair',
+                    specialty: 'Cardiac Surgery',
+                    timingHint: 'Life-threatening / Immediate',
+                    descEn: 'A 58-year-old patient presents with a life-threatening cardiac condition requiring immediate surgical intervention and full airway/ventilation control.',
+                    descAr: 'مريض عمره 58 سنة يعاني من حالة قلبية مهددة للحياة تتطلب تدخلاً جراحياً فورياً وتحكماً كاملاً بمجرى الهواء والتنفس.',
+                    correctTech: 'General Anesthesia',
+                    correctUrg: 'Emergency',
+                    expEn: 'General Anesthesia is standard for cardiac surgery to provide complete control over the airway and breathing. Life-threatening immediate surgery is classified as Emergency.',
+                    expAr: 'التخدير العام هو الخيار القياسي لجراحة القلب لتأمين تحكم كامل بمجرى الهواء والتنفس، والجراحة الفورية المهددة للحياة تُصنف Emergency.'
+                },
+                {
+                    title: 'Elective Total Knee Replacement',
+                    specialty: 'Orthopedic Surgery',
+                    timingHint: 'Scheduled in advance',
+                    descEn: 'A 66-year-old cooperative patient scheduled in advance for knee replacement surgery. The patient prefers to stay awake and wants superior postoperative analgesia and early ambulation.',
+                    descAr: 'مريض متعاون عمره 66 سنة مجدول مسبقاً لعملية تبديل مفصل الركبة، ويفضل البقاء مستيقظاً مع تسكين ممتاز للألم وحركة مبكرة بعد العملية.',
+                    correctTech: 'Regional / Neuraxial Anesthesia',
+                    correctUrg: 'Elective',
+                    expEn: 'Regional/Neuraxial anesthesia is ideal for knee replacement in a cooperative patient preferring to stay awake, offering superior analgesia, reduced opioid use, and early ambulation. Scheduled surgery is Elective.',
+                    expAr: 'التخدير المناطقي/المحوري مثالي لتبديل الركبة في مريض متعاون يفضل البقاء مستيقظاً، ويوفر تسكيناً فائقاً ونهوضاً مبكراً، والعملية المجدولة تُصنف Elective.'
+                },
+                {
+                    title: 'Diagnostic Colonoscopy / Endoscopy',
+                    specialty: 'Endoscopy / GI Procedure',
+                    timingHint: 'Within 24–72 hours',
+                    descEn: 'An anxious 45-year-old patient needs an upper endoscopy/colonoscopy within 48 hours to prevent serious GI complications. The patient wants to be relaxed and sleepy without general anesthesia.',
+                    descAr: 'مريض قلق عمره 45 سنة يحتاج تنظيراً هضمياً/قولونياً خلال 48 ساعة لمنع مضاعفات خطيرة، ويرغب بالاسترخاء والنعاس دون تخدير عام.',
+                    correctTech: 'Sedation',
+                    correctUrg: 'Urgent',
+                    expEn: 'Sedation keeps the patient conscious, relaxed, and sleepy for endoscopy/colonoscopy with quicker recovery and less PONV. Surgery needed within 24–72 hours is Urgent.',
+                    expAr: 'التركين (Sedation) هو الأنسب للتنظير الهضمي والقولوني، والإجراء المطلوب خلال 24–72 ساعة يُصنف Urgent.'
+                },
+                {
+                    title: 'Minor Skin Laceration Suturing',
+                    specialty: 'Minor Procedure (Stitches)',
+                    timingHint: 'Within 24–72 hours / Minor',
+                    descEn: 'A 29-year-old cooperative patient requires stitches for a small 3-cm skin laceration, needing rapid recovery with no airway manipulation.',
+                    descAr: 'مريض متعاون عمره 29 سنة يحتاج خياطة جرح سطحي صغير بطول 3 سم، مع تعافٍ سريع ودون الحاجة للتنبيب.',
+                    correctTech: 'Local Anesthesia',
+                    correctUrg: 'Urgent',
+                    expEn: 'Local anesthesia blocks pain in a very small area for stitches or dental work, is the least invasive technique, and requires no intubation.',
+                    expAr: 'التخدير الموضعي يوقف الألم في منطقة صغيرة جداً للغرز أو الأسنان، وهو الأقل توغلاً ولا يحتاج تنبيباً.'
+                },
+                {
+                    title: 'Craniotomy for Brain Tumor',
+                    specialty: 'Neurosurgery',
+                    timingHint: 'Scheduled in advance',
+                    descEn: 'A 41-year-old patient scheduled in advance for brain tumor resection requiring complete immobility, unconsciousness, and optimal surgical conditions.',
+                    descAr: 'مريض عمره 41 سنة مجدول مسبقاً لاستئصال ورم دماغي يتطلب فقدان وعي كامل وظروفاً جراحية مثالية دون أي حركة.',
+                    correctTech: 'General Anesthesia',
+                    correctUrg: 'Elective',
+                    expEn: 'General anesthesia is the most common technique for neurosurgery to allow safe brain/spinal cord operation without pain or movement.',
+                    expAr: 'التخدير العام هو التقنية الأكثر شيوعاً لجراحة الأعصاب والدماغ لضمان عدم تحرك المريض أو شعوره بالألم.'
+                },
+                {
+                    title: 'Uncooperative Child / Hysterectomy',
+                    specialty: 'Abdominal / Pediatric',
+                    timingHint: 'Scheduled in advance',
+                    descEn: 'A 5-year-old uncooperative child scheduled in advance for an abdominal surgical procedure.',
+                    descAr: 'طفل عمره 5 سنوات غير متعاون ومجدول مسبقاً لإجراء عملية جراحية في البطن.',
+                    correctTech: 'General Anesthesia',
+                    correctUrg: 'Elective',
+                    expEn: 'Patients who are unable to cooperate with the anesthesiologist (such as young children) require General Anesthesia.',
+                    expAr: 'المرضى غير القادرين على التعاون مع طبيب التخدير (مثل الأطفال) يحتاجون إلى التخدير العام.'
+                }
+            ];
+
+            currentSimCase = pickRandom(casesPool);
+            selectedSimTech = null;
+            selectedSimUrg = null;
+
+            document.getElementById('caseIdBadge').textContent = `CASE #${randInt(100, 999)}`;
+            document.getElementById('caseTitle').textContent = currentSimCase.title;
+            document.getElementById('caseSpecialty').textContent = currentSimCase.specialty;
+            document.getElementById('caseTimingHint').textContent = currentSimCase.timingHint;
+            document.getElementById('caseDescEn').textContent = currentSimCase.descEn;
+            document.getElementById('caseDescAr').textContent = currentSimCase.descAr;
+
+            document.querySelectorAll('.sim-tech-btn, .sim-urg-btn').forEach(b => {
+                b.classList.remove('border-blue-600', 'bg-blue-50', 'dark:bg-blue-950/50', 'border-emerald-600', 'bg-emerald-50', 'dark:bg-emerald-950/50', 'ring-2', 'ring-blue-500');
+            });
+            document.getElementById('simResultBox').classList.add('hidden');
+        }
+
+        function selectSimTech(val) {
+            selectedSimTech = val;
+            document.querySelectorAll('.sim-tech-btn').forEach(b => {
+                const match = b.getAttribute('data-val') === val;
+                b.classList.toggle('border-blue-600', match);
+                b.classList.toggle('bg-blue-50', match);
+                b.classList.toggle('dark:bg-blue-950/50', match);
+            });
+        }
+
+        function selectSimUrg(val) {
+            selectedSimUrg = val;
+            document.querySelectorAll('.sim-urg-btn').forEach(b => {
+                const match = b.getAttribute('data-val') === val;
+                b.classList.toggle('border-emerald-600', match);
+                b.classList.toggle('bg-emerald-50', match);
+                b.classList.toggle('dark:bg-emerald-950/50', match);
+            });
+        }
+
+        function submitClinicalDecision() {
+            const box = document.getElementById('simResultBox');
+            if (!selectedSimTech || !selectedSimUrg) {
+                box.classList.remove('hidden', 'bg-emerald-50', 'border-emerald-200', 'bg-rose-50', 'border-rose-200');
+                box.classList.add('bg-amber-50', 'border-amber-300', 'dark:bg-amber-950/40', 'dark:border-amber-700');
+                document.getElementById('simResultTitle').textContent = 'يرجى اختيار تقنية التخدير ودرجة الاستعجالية أولاً!';
+                document.getElementById('simResultEn').textContent = 'Please select both an Anesthetic Technique (Step 1) and Surgical Urgency (Step 2) before submitting.';
+                document.getElementById('simResultAr').textContent = 'حدد الخيارين أعلاه ثم اضغط على زر تأكيد القرار.';
+                return;
+            }
+
+            const techOk = selectedSimTech === currentSimCase.correctTech;
+            const urgOk = selectedSimUrg === currentSimCase.correctUrg;
+            const allOk = techOk && urgOk;
+
+            box.classList.remove('hidden', 'bg-amber-50', 'border-amber-300', 'dark:bg-amber-950/40', 'dark:border-amber-700', 'bg-emerald-50', 'border-emerald-200', 'dark:bg-emerald-950/30', 'dark:border-emerald-800', 'bg-rose-50', 'border-rose-200', 'dark:bg-rose-950/30', 'dark:border-rose-800');
+
+            if (allOk) {
+                if (!currentSimCase.scored) {
+                    currentSimCase.scored = true;
+                    simSolvedCount++;
+                    document.getElementById('simSolvedBadge').textContent = simSolvedCount;
+                }
+                box.classList.add('bg-emerald-50', 'border-emerald-200', 'dark:bg-emerald-950/30', 'dark:border-emerald-800');
+                document.getElementById('simResultTitle').textContent = 'قرار سريري صحيح 100%! ✓';
+                document.getElementById('simResultTitle').className = 'text-base sm:text-lg font-extrabold text-emerald-800 dark:text-emerald-300';
+            } else {
+                box.classList.add('bg-rose-50', 'border-rose-200', 'dark:bg-rose-950/30', 'dark:border-rose-800');
+                document.getElementById('simResultTitle').textContent = `مراجعة مطلوبة — الإجابة الصحيحة: ${currentSimCase.correctTech} (${currentSimCase.correctUrg})`;
+                document.getElementById('simResultTitle').className = 'text-base sm:text-lg font-extrabold text-rose-800 dark:text-rose-300';
+            }
+
+            document.getElementById('simResultEn').textContent = currentSimCase.expEn;
+            document.getElementById('simResultAr').textContent = currentSimCase.expAr;
+        }
+
+        // =========================================================
+        // 4. TAB 4: REAL-TIME PROCEDURAL MCQ ENGINE
+        // =========================================================
+        function buildMCQ(qEn, qAr, correctText, wrongTexts, expEn, expAr) {
+            return {
+                uid: `${Date.now()}-${Math.random().toString(36).substr(2, 6)}`,
+                qEn, qAr,
+                options: shuffleArray([
+                    { text: correctText, isCorrect: true },
+                    ...wrongTexts.map(w => ({ text: w, isCorrect: false }))
+                ]),
+                expEn, expAr
+            };
+        }
+
+        const mcqTemplates = [
+            // Lecture Q1 - Q5
+            () => buildMCQ(
+                pickRandom([
+                    'The primary responsibility for choosing the anesthetic technique lies with the:',
+                    'Who holds the primary responsibility for selecting the anesthetic technique (in consultation with the patient and surgeon)?'
+                ]),
+                'المسؤولية الأساسية لاختيار تقنية التخدير تقع على عاتق:',
+                'Anesthesiologist',
+                ['Surgeon', 'Patient', 'Hospital administration'],
+                'The decision is made primarily by the anesthesiologist in consultation with the patient and the surgeon.',
+                'يتخذ القرار طبيب التخدير (Anesthesiologist) بالتشاور مع المريض والجراح.'
+            ),
+            () => buildMCQ(
+                pickRandom([
+                    'Which of the following best defines anesthetic choice?',
+                    'How is "anesthetic choice" defined in clinical anesthesia practice?'
+                ]),
+                'أي مما يلي يمثل التعريف الأدق لاختيار تقنية التخدير (Anesthetic Choice)؟',
+                'Selecting the best anesthesia for a specific patient and surgical procedure',
+                [
+                    'Selection of induction drugs only without considering surgery',
+                    'A single standard anesthesia technique applied to all patients',
+                    'Decision made solely by the surgeon based on cost'
+                ],
+                'There is no single ideal technique for all patients; anesthesia must be individualized for a particular patient and surgical procedure.',
+                'لا يوجد نوع واحد مثالي للجميع، بل يُختار أفضل نوع تخدير يناسب مريضاً محدداً وعملية محددة.'
+            ),
+            () => buildMCQ(
+                pickRandom([
+                    'Which of the following is NOT a goal of choosing an anesthetic technique?',
+                    'All of the following are goals of choosing an anesthetic technique EXCEPT:'
+                ]),
+                'أي مما يلي ليس من أهداف اختيار تقنية التخدير؟',
+                'Patient discomfort',
+                [
+                    'Adequate hypnosis, analgesia, and muscle relaxation',
+                    'Maintain physiological homeostasis',
+                    'Enable rapid and smooth recovery'
+                ],
+                'The 6 goals ensure patient safety and COMFORT, not discomfort.',
+                'الأهداف تضمن سلامة المريض وراحته (Comfort) وليس انزعاجه.'
+            ),
+            () => buildMCQ(
+                pickRandom([
+                    'A major advantage of general anesthesia is:',
+                    'Which of the following is a primary advantage of General Anesthesia?'
+                ]),
+                'من المزايا الرئيسية للتخدير العام (General Anesthesia):',
+                'Complete unconsciousness (along with excellent surgical field and full airway control)',
+                [
+                    'Early ambulation and earlier discharge',
+                    'Reduced opioid use without airway manipulation',
+                    'Least invasive technique with no need for intubation'
+                ],
+                'GA advantages: Complete unconsciousness, excellent surgical field, and full airway control.',
+                'مزايا التخدير العام: فقدان وعي كامل، مجال جراحي ممتاز، وتحكم كامل بمجرى الهواء.'
+            ),
+            () => buildMCQ(
+                pickRandom([
+                    'Surgery that is life-threatening and must be done immediately is classified as:',
+                    'How is a life-threatening surgical condition requiring immediate operation classified?'
+                ]),
+                'تُصنف الجراحة المهددة للحياة والتي يجب إجراؤها فوراً على أنها:',
+                'Emergency',
+                ['Urgent', 'Elective', 'Planned'],
+                'Emergency = life-threatening, immediate; Urgent = within 24–72 hours; Elective = scheduled in advance.',
+                'الجراحة الفورية المهددة للحياة تُصنف Emergency.'
+            ),
+            // Dynamic Urgency Timeline Question
+            () => buildMCQ(
+                'A surgical procedure that must be performed within 24–72 hours to prevent serious complications is classified as:',
+                'العملية الجراحية التي يجب إجراؤها خلال 24–72 ساعة لمنع مضاعفات خطيرة تُصنف على أنها:',
+                'Urgent surgery',
+                ['Emergency surgery', 'Elective surgery', 'Outpatient local procedure'],
+                'Urgent surgery is performed within 24–72 hours to prevent serious complications.',
+                'الجراحة العاجلة (Urgent) تُجرى خلال 24 إلى 72 ساعة لمنع مضاعفات خطيرة.'
+            ),
+            // Regional Complications (PDPH, LAST)
+            () => buildMCQ(
+                'Which set of complications is specifically associated with Regional / Neuraxial Anesthesia?',
+                'أي مجموعة من المضاعفات ترتبط تحديداً بالتخدير المناطقي / المحوري (Regional / Neuraxial Anesthesia)؟',
+                'Hypotension, bradycardia, post-dural puncture headache (PDPH), nerve injury, and LAST',
+                [
+                    'Malignant hyperthermia, airway trauma, and PONV',
+                    'Drowsiness, dizziness, and difficulty breathing only',
+                    'Swelling and redness at a tiny dental injection site only'
+                ],
+                'Regional/Neuraxial complications include hypotension, bradycardia, PDPH, nerve injury, and local anesthetic systemic toxicity (LAST).',
+                'مضاعفات التخدير المناطقي تشمل هبوط الضغط، بطء القلب، صداع ما بعد البزل الجافوي (PDPH)، أذية الأعصاب، وسمية المخدر الموضعي (LAST).'
+            ),
+            // Regional Advantages
+            () => buildMCQ(
+                'All of the following are advantages of Regional / Neuraxial Anesthesia EXCEPT:',
+                'جميع ما يلي من مزايا التخدير المناطقي / المحوري ما عدا (EXCEPT):',
+                'Complete unconsciousness and full airway control',
+                [
+                    'Superior analgesia',
+                    'Reduced opioid use',
+                    'Early ambulation and earlier hospital discharge'
+                ],
+                'Complete unconsciousness and full airway control are advantages of General Anesthesia, whereas Regional offers superior analgesia, reduced opioid use, early ambulation, and earlier discharge.',
+                'فقدان الوعي الكامل والتحكم بمجرى الهواء هما من مزايا التخدير العام وليس المناطقي.'
+            ),
+            // Sedation & Local Anesthesia
+            () => buildMCQ(
+                'Which anesthetic technique keeps the patient conscious, relaxed, and sleepy, and is commonly used for colonoscopy or endoscopy?',
+                'أي تقنية تخدير تُبقي المريض واعياً ومسترخياً ونعساناً وتُستخدم عادةً لتنظير القولون أو التنظير الهضمي؟',
+                'Sedation',
+                ['General anesthesia', 'Neuraxial anesthesia', 'Local infiltration only'],
+                'Sedation is a lighter form of anesthesia where the patient remains conscious, relaxed, and sleepy (e.g., colonoscopy/endoscopy).',
+                'التركين (Sedation) يُستخدم للإجراءات البسيطة مثل تنظير القولون والتنظير الهضمي.'
+            ),
+            () => buildMCQ(
+                'Which technique is the least invasive type of anesthesia, requires no intubation, and is used for stitches or dental work?',
+                'ما هي التقنية الأقل توغلاً ولا تحتاج للتنبيب وتُستخدم للغرز الجراحية وعلاج الأسنان؟',
+                'Local anesthesia',
+                ['General anesthesia', 'Regional anesthesia', 'Deep sedation'],
+                'Local anesthesia blocks pain signals from a very small area (stitches, dental work), is least invasive, and requires no intubation.',
+                'التخدير الموضعي هو الأقل توغلاً ولا يحتاج تنبيباً ويُستخدم للغرز وعلاج الأسنان.'
+            ),
+            // 8 Factors Scenarios
+            () => buildMCQ(
+                'A patient who is unable to cooperate with the anesthesiologist (e.g., a young child or agitated patient) typically requires which technique?',
+                'المريض غير القادر على التعاون مع طبيب التخدير يحتاج عادةً إلى أي تقنية تخديرية؟',
+                'General anesthesia',
+                ['Local anesthesia alone', 'Minimal sedation without airway support', 'Regional block without sedation'],
+                'Factor #7 (Patient’s cooperation): Patients who are unable to cooperate with the anesthesiologist may require general anesthesia.',
+                'عدم تعاون المريض (العامل السابع) يستدعي غالباً اللجوء إلى التخدير العام.'
+            ),
+            () => buildMCQ(
+                'Why are older adults and infants given special consideration when selecting an anesthetic technique and dosage?',
+                'لماذا يُؤخذ كبار السن والرضّع بعين الاعتبار بشكل خاص عند اختيار تقنية التخدير؟',
+                'Age and weight affect drug metabolism and response; older adults and infants may be more sensitive to anesthetics',
+                [
+                    'They are completely immune to malignant hyperthermia',
+                    'They never require postoperative analgesia',
+                    'Local anesthetics cannot block nerve conduction in infants'
+                ],
+                'Factor #3 (Age and weight): Older adults and infants may be more sensitive to anesthetics due to differences in metabolism and response.',
+                'العمر والوزن يؤثران على الاستقلاب والاستجابة للأدوية، وكبار السن والرضّع أكثر حساسية لأدوية التخدير.'
+            )
+        ];
+
+        function generateFreshQuiz() {
+            quizAnswers = {};
+            activeQuestions = [];
+            document.getElementById('seedBadge').textContent = `LIVE SEED: #${randInt(1000, 9999)}`;
+
+            const seen = new Set();
+            let guard = 0;
+            while (activeQuestions.length < 12 && guard < 150) {
+                guard++;
+                const q = pickRandom(mcqTemplates)();
+                if (!seen.has(q.qEn)) {
+                    seen.add(q.qEn);
+                    activeQuestions.push(q);
+                }
+            }
+            updateQuizScore();
+            renderQuiz();
+        }
+
+        // =========================================================
+        // UI RENDERING & CONTROLS
+        // =========================================================
+        function init() {
+            renderFoundations();
+            renderTechniques();
+            generateClinicalCase();
+            generateFreshQuiz();
+            lucide.createIcons();
+        }
+
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+            const isDark = document.documentElement.classList.contains('dark');
+            document.getElementById('themeIcon').setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+            lucide.createIcons();
+        }
+
+        function toggleArabicMode() {
+            showArabic = !showArabic;
+            document.getElementById('arabicBtnLabel').textContent = showArabic ? 'إخفاء الشرح العربي' : 'إظهار الشرح العربي';
+            document.querySelectorAll('.ar-explain').forEach(el => {
+                el.style.display = showArabic ? '' : 'none';
+            });
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(sec => sec.classList.add('hidden'));
+            document.getElementById(`view-${tabName}`).classList.remove('hidden');
+
+            document.querySelectorAll('.nav-tab').forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white', 'shadow-sm');
+                btn.classList.add('text-slate-600', 'dark:text-slate-300', 'hover:bg-slate-100', 'dark:hover:bg-slate-800');
+            });
+
+            const activeBtn = document.getElementById(`tab-${tabName}`);
+            activeBtn.classList.remove('text-slate-600', 'dark:text-slate-300', 'hover:bg-slate-100', 'dark:hover:bg-slate-800');
+            activeBtn.classList.add('bg-blue-600', 'text-white', 'shadow-sm');
+            lucide.createIcons();
+        }
+
+        function renderFoundations() {
+            document.getElementById('goalsGrid').innerHTML = goalsData.map(g => `
+                <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <span class="inline-flex w-7 h-7 rounded-lg bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 items-center justify-center text-xs font-extrabold en-text mb-2">#${g.num}</span>
+                        <p class="en-block text-sm font-extrabold text-slate-900 dark:text-white leading-snug">${g.en}</p>
+                    </div>
+                    <p class="ar-explain text-xs text-slate-600 dark:text-slate-400 mt-2.5 pt-2 border-t border-slate-100 dark:border-slate-800 leading-relaxed">${g.ar}</p>
+                </div>
+            `).join('');
+
+            document.getElementById('factorsGrid').innerHTML = factorsData.map(f => `
+                <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 shadow-sm space-y-1.5">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-extrabold px-2 py-0.5 rounded bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300 en-text">FACTOR ${f.num}</span>
+                    </div>
+                    <h3 class="en-block text-sm font-extrabold text-slate-900 dark:text-white">${f.titleEn}</h3>
+                    <p class="en-block text-xs text-slate-700 dark:text-slate-300 leading-relaxed">${f.descEn}</p>
+                    <p class="ar-explain text-xs text-slate-600 dark:text-slate-400 pt-2 border-t border-slate-100 dark:border-slate-800 leading-relaxed">${f.descAr}</p>
+                </div>
+            `).join('');
+
+            document.getElementById('urgencyList').innerHTML = urgencyData.map(u => `
+                <div class="p-3.5 rounded-xl border border-${u.color}-200 dark:border-${u.color}-800/60 bg-${u.color}-50/60 dark:bg-${u.color}-950/25 space-y-1">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-extrabold text-${u.color}-800 dark:text-${u.color}-300 en-text">${u.level}</span>
+                        <span class="text-xs font-bold px-2 py-0.5 rounded bg-white/80 dark:bg-slate-900 text-slate-700 dark:text-slate-300 en-text">${u.time}</span>
+                    </div>
+                    <p class="en-block text-xs font-medium text-slate-800 dark:text-slate-200">${u.en}</p>
+                    <p class="ar-explain text-xs text-slate-600 dark:text-slate-400">${u.ar}</p>
+                </div>
+            `).join('');
+
+            document.getElementById('surgeryTypesGrid').innerHTML = surgeryGuideData.map(s => `
+                <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 space-y-1">
+                    <div class="en-block text-xs font-extrabold text-blue-700 dark:text-blue-400">${s.name}</div>
+                    <div class="en-block text-xs font-bold text-slate-900 dark:text-white">${s.rec}</div>
+                    <div class="ar-explain text-xs text-slate-600 dark:text-slate-400">${s.descAr}</div>
+                </div>
+            `).join('');
+        }
+
+        function filterTechnique(id) {
+            currentTechFilter = id;
+            document.querySelectorAll('.tech-pill').forEach(btn => {
+                const isSelected = btn.getAttribute('data-tech') === id;
+                btn.className = isSelected
+                    ? 'tech-pill px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-900 text-white dark:bg-blue-600 whitespace-nowrap transition-all shadow-sm'
+                    : 'tech-pill px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 whitespace-nowrap transition-all';
+            });
+            renderTechniques();
+        }
+
+        function renderTechniques() {
+            const filtered = techniquesData.filter(t => currentTechFilter === 'ALL' || t.id === currentTechFilter);
+            document.getElementById('techniquesContainer').innerHTML = filtered.map(t => `
+                <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col">
+                    <div class="p-4 sm:p-5 bg-${t.color}-50/70 dark:bg-${t.color}-950/30 border-b border-slate-200 dark:border-slate-800">
+                        <h3 class="en-block text-lg font-extrabold text-slate-900 dark:text-white">${t.titleEn}</h3>
+                        <p class="ar-explain text-xs font-bold text-${t.color}-700 dark:text-${t.color}-400 mt-0.5" style="${showArabic ? '' : 'display:none;'}">${t.titleAr}</p>
+                    </div>
+
+                    <div class="p-4 sm:p-5 space-y-4 flex-1 text-sm">
+                        <div>
+                            <span class="text-xs font-extrabold uppercase text-slate-500 en-text block mb-1">Definition & Typical Uses</span>
+                            <p class="en-block text-slate-800 dark:text-slate-100 font-medium">${t.defEn} <strong>Uses:</strong> ${t.usesEn}</p>
+                            <p class="ar-explain text-xs text-slate-600 dark:text-slate-400 mt-1" style="${showArabic ? '' : 'display:none;'}">${t.defAr} <strong>الاستخدامات:</strong> ${t.usesAr}</p>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-slate-100 dark:border-slate-800">
+                            <div class="p-3 rounded-xl bg-emerald-50/70 dark:bg-emerald-950/25 border border-emerald-200/70 dark:border-emerald-800/50">
+                                <span class="text-xs font-extrabold text-emerald-800 dark:text-emerald-300 block mb-1.5">Advantages / Benefits ✓</span>
+                                <ul class="en-block text-xs text-slate-800 dark:text-slate-200 space-y-1 list-disc list-inside">
+                                    ${t.prosEn.map(p => `<li>${p}</li>`).join('')}
+                                </ul>
+                                <p class="ar-explain text-[11px] text-emerald-900 dark:text-emerald-300 mt-2 pt-1.5 border-t border-emerald-200/60" style="${showArabic ? '' : 'display:none;'}">${t.prosAr}</p>
+                            </div>
+
+                            <div class="p-3 rounded-xl bg-rose-50/70 dark:bg-rose-950/25 border border-rose-200/70 dark:border-rose-800/50">
+                                <span class="text-xs font-extrabold text-rose-800 dark:text-rose-300 block mb-1.5">Complications / Risks ⚠</span>
+                                <ul class="en-block text-xs text-slate-800 dark:text-slate-200 space-y-1 list-disc list-inside">
+                                    ${t.consEn.map(c => `<li>${c}</li>`).join('')}
+                                </ul>
+                                <p class="ar-explain text-[11px] text-rose-900 dark:text-rose-300 mt-2 pt-1.5 border-t border-rose-200/60" style="${showArabic ? '' : 'display:none;'}">${t.consAr}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderQuiz() {
+            document.getElementById('quizQuestionsContainer').innerHTML = activeQuestions.map((q, qIdx) => {
+                const chosen = quizAnswers[q.uid];
+                const isAnswered = chosen !== undefined;
+                return `
+                    <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm space-y-3.5">
+                        <div class="flex items-start gap-3">
+                            <span class="px-2.5 py-1 rounded-lg bg-blue-100 text-blue-800 dark:bg-blue-900/60 dark:text-blue-300 text-xs font-extrabold en-text shrink-0">Q${qIdx + 1}</span>
+                            <div class="space-y-1 flex-1">
+                                <h3 class="en-block text-base font-extrabold text-slate-900 dark:text-white">${q.qEn}</h3>
+                                <p class="ar-explain text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-semibold" style="${showArabic ? '' : 'display:none;'}">${q.qAr}</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-2 en-block">
+                            ${q.options.map((opt, idx) => {
+                                const letter = String.fromCharCode(65 + idx);
+                                let style = 'border-slate-200 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-800/50 hover:border-blue-400';
+                                if (isAnswered) {
+                                    if (opt.isCorrect) style = 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/50 text-emerald-900 dark:text-emerald-200 font-bold';
+                                    else if (idx === chosen) style = 'border-rose-500 bg-rose-50 dark:bg-rose-950/50 text-rose-900 dark:text-rose-200';
+                                    else style = 'border-slate-200 dark:border-slate-800 opacity-60';
+                                }
+                                return `
+                                    <button onclick="answerQuiz('${q.uid}', ${idx})" class="w-full text-left px-4 py-3 rounded-xl border text-sm transition-all flex items-center justify-between gap-2 ${style}">
+                                        <span><strong>${letter}.</strong> ${opt.text}</span>
+                                        ${isAnswered && opt.isCorrect ? '<span class="text-emerald-600 font-extrabold shrink-0">✓</span>' : ''}
+                                        ${isAnswered && idx === chosen && !opt.isCorrect ? '<span class="text-rose-600 font-extrabold shrink-0">✗</span>' : ''}
+                                    </button>
+                                `;
+                            }).join('')}
+                        </div>
+
+                        ${isAnswered ? `
+                            <div class="p-3.5 rounded-xl bg-blue-50/80 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800/60 space-y-1">
+                                <div class="en-block text-xs sm:text-sm font-semibold text-blue-900 dark:text-blue-200">${q.expEn}</div>
+                                <div class="ar-explain text-xs text-slate-700 dark:text-slate-300" style="${showArabic ? '' : 'display:none;'}">${q.expAr}</div>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function answerQuiz(uid, idx) {
+            quizAnswers[uid] = idx;
+            updateQuizScore();
+            renderQuiz();
+        }
+
+        function updateQuizScore() {
+            let score = 0;
+            activeQuestions.forEach(q => {
+                const c = quizAnswers[q.uid];
+                if (c !== undefined && q.options[c] && q.options[c].isCorrect) score++;
+            });
+            document.getElementById('quizScoreDisplay').textContent = `${score} / ${activeQuestions.length}`;
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
